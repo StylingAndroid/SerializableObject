@@ -4,14 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
-    dependencies {
-        classpath BuildPlugins.androidGradlePlugin
-        classpath BuildPlugins.kotlinGradlePlugin
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    dependencies {
+        classpath BuildPlugins.kotlinGradlePlugin
     }
 }
 
@@ -19,22 +15,45 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.27.0'
     id 'io.gitlab.arturbosch.detekt' version "1.1.1"
     id 'org.jlleitschuh.gradle.ktlint' version '9.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.50'
 }
 
-subprojects {
-    apply plugin: BuildPlugins.versions
-    apply plugin: BuildPlugins.ktlint
-    apply plugin: BuildPlugins.detekt
-}
+apply plugin: BuildPlugins.versions
+apply plugin: BuildPlugins.ktlint
+apply plugin: BuildPlugins.detekt
+
+group 'com.stylingandroid'
+version '1.0-SNAPSHOT'
 
 allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        mavenCentral()
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    implementation Libraries.kotlinStdLib
+    testImplementation Libraries.jupiter
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} succeeded, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
+        }
+    }
 }
