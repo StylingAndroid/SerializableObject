@@ -8,6 +8,7 @@ buildscript {
 
     dependencies {
         classpath BuildPlugins.kotlinGradlePlugin
+        classpath BuildPlugins.kotlinSerializationPlugin
     }
 }
 
@@ -21,6 +22,7 @@ plugins {
 apply plugin: BuildPlugins.versions
 apply plugin: BuildPlugins.ktlint
 apply plugin: BuildPlugins.detekt
+apply plugin: BuildPlugins.kotlinxSerialization
 
 group 'com.stylingandroid'
 version '1.0-SNAPSHOT'
@@ -35,6 +37,7 @@ allprojects {
 
 dependencies {
     implementation Libraries.kotlinStdLib
+    implementation Libraries.kotlinxSerializationRuntime
     testImplementation Libraries.jupiter
 }
 
