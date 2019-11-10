@@ -4,27 +4,26 @@ import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.SerializersModule
 
-@Serializable
-sealed class KotlinSerializer {
+sealed class KSerializerSealedClass {
 
     @Serializable(with = Object::class)
     object Object :
-        KotlinSerializer(), ObjectSerializer<Object> by createObjectSerializer({ Object })
+        KSerializerSealedClass(), ObjectSerializer<Object> by createObjectSerializer({ Object })
 
     @Serializable(with = Object2::class)
     object Object2 :
-        KotlinSerializer(), ObjectSerializer<Object2> by createObjectSerializer({ Object2 })
+        KSerializerSealedClass(), ObjectSerializer<Object2> by createObjectSerializer({ Object2 })
 
     @Serializable
-    data class DataClass(val data: String) : KotlinSerializer()
+    data class DataClass(val data: String) : KSerializerSealedClass()
 
     companion object {
 
-        val serializer = PolymorphicSerializer(KotlinSerializer::class)
+        val serializer = PolymorphicSerializer(KSerializerSealedClass::class)
 
         val serializersModule
             get() = SerializersModule {
-                polymorphic(KotlinSerializer::class) {
+                polymorphic(KSerializerSealedClass::class) {
                     Object::class with Object.serializer()
                     Object2::class with Object2.serializer()
                     DataClass::class with DataClass.serializer()

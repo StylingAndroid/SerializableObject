@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class KotlinSerializerTest {
+internal class KSerializerSealedClassTest {
     private val data = "data"
 
     @Nested
     @DisplayName("Given a SealedClass.Object")
     inner class Object {
 
-        val sealedClass = KotlinSerializer.Object
+        val sealedClass = KSerializerSealedClass.Object
 
         @Nested
         @DisplayName("When we use it as-is")
@@ -26,13 +26,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.Object.javaClass))
+                assertTrue(isType(type, KSerializerSealedClass.Object.javaClass))
             }
 
             @Test
             @DisplayName("Then it is identical")
             fun checkSame() {
-                assertTrue(isSame(type, KotlinSerializer.Object))
+                assertTrue(isSame(type, KSerializerSealedClass.Object))
             }
 
             @Test
@@ -51,13 +51,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.Object.javaClass))
+                assertTrue(isType(type, KSerializerSealedClass.Object.javaClass))
             }
 
             @Test
             @DisplayName("Then it is identical")
             fun checkSame() {
-                assertTrue(isSame(type, KotlinSerializer.Object))
+                assertTrue(isSame(type, KSerializerSealedClass.Object))
             }
 
             @Test
@@ -72,7 +72,7 @@ internal class KotlinSerializerTest {
     @DisplayName("Given a SealedClass.Object2")
     inner class Object2 {
 
-        val sealedClass = KotlinSerializer.Object2
+        val sealedClass = KSerializerSealedClass.Object2
 
         @Nested
         @DisplayName("When we use it as-is")
@@ -83,13 +83,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.Object2.javaClass))
+                assertTrue(isType(type, KSerializerSealedClass.Object2.javaClass))
             }
 
             @Test
             @DisplayName("Then it is identical")
             fun checkSame() {
-                assertTrue(isSame(type, KotlinSerializer.Object2))
+                assertTrue(isSame(type, KSerializerSealedClass.Object2))
             }
 
             @Test
@@ -108,13 +108,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.Object2.javaClass))
+                assertTrue(isType(type, KSerializerSealedClass.Object2.javaClass))
             }
 
             @Test
             @DisplayName("Then it is identical")
             fun checkSame() {
-                assertTrue(isSame(type, KotlinSerializer.Object2))
+                assertTrue(isSame(type, KSerializerSealedClass.Object2))
             }
 
             @Test
@@ -129,7 +129,7 @@ internal class KotlinSerializerTest {
     @DisplayName("Given a SealedClass.DataClass")
     inner class DataClass {
 
-        private val sealedClass = KotlinSerializer.DataClass(data)
+        private val sealedClass = KSerializerSealedClass.DataClass(data)
 
         @Nested
         @DisplayName("When we use it as-is")
@@ -140,13 +140,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.DataClass(data).javaClass))
+                assertTrue(isType(type, KSerializerSealedClass.DataClass(data).javaClass))
             }
 
             @Test
             @DisplayName("Then it is not identical")
             fun checkDifferent() {
-                assertFalse(isSame(type, KotlinSerializer.DataClass(data)))
+                assertFalse(isSame(type, KSerializerSealedClass.DataClass(data)))
             }
 
             @Test
@@ -165,13 +165,13 @@ internal class KotlinSerializerTest {
             @Test
             @DisplayName("Then its type is correctly matched")
             fun checkType() {
-                assertTrue(isType(type, KotlinSerializer.DataClass::class.java))
+                assertTrue(isType(type, KSerializerSealedClass.DataClass::class.java))
             }
 
             @Test
             @DisplayName("Then it is identical")
             fun checkSame() {
-                assertFalse(isSame(type, KotlinSerializer.DataClass(data)))
+                assertFalse(isSame(type, KSerializerSealedClass.DataClass(data)))
             }
 
             @Test
@@ -183,35 +183,35 @@ internal class KotlinSerializerTest {
     }
 
     private fun isType(
-        sealedClass: KotlinSerializer,
-        expected: Class<out KotlinSerializer>
+        sealedClass: KSerializerSealedClass,
+        expected: Class<out KSerializerSealedClass>
     ): Boolean =
         sealedClass::class.java.isAssignableFrom(expected)
 
-    private fun isSame(sealedClass: KotlinSerializer, expected: KotlinSerializer): Boolean =
+    private fun isSame(sealedClass: KSerializerSealedClass, expected: KSerializerSealedClass): Boolean =
         sealedClass === expected
 
     private fun whenObject(sealedClass: Any): Boolean =
         when (sealedClass) {
-            KotlinSerializer.Object -> true
+            KSerializerSealedClass.Object -> true
             else -> false
         }
 
     private fun whenObject2(sealedClass: Any): Boolean =
         when (sealedClass) {
-            KotlinSerializer.Object2 -> true
+            KSerializerSealedClass.Object2 -> true
             else -> false
         }
 
-    private fun whenDataClass(sealedClass: KotlinSerializer): Boolean =
+    private fun whenDataClass(sealedClass: KSerializerSealedClass): Boolean =
         when (sealedClass) {
-            is KotlinSerializer.DataClass -> true
+            is KSerializerSealedClass.DataClass -> true
             else -> false
         }
 
-    private fun serialize(input: KotlinSerializer): KotlinSerializer {
-        val serializer = Json(JsonConfiguration.Stable, KotlinSerializer.serializersModule)
-        val json = serializer.stringify(KotlinSerializer.serializer, input)
-        return serializer.parse(KotlinSerializer.serializer, json) as KotlinSerializer
+    private fun serialize(input: KSerializerSealedClass): KSerializerSealedClass {
+        val serializer = Json(JsonConfiguration.Stable, KSerializerSealedClass.serializersModule)
+        val json = serializer.stringify(KSerializerSealedClass.serializer, input)
+        return serializer.parse(KSerializerSealedClass.serializer, json) as KSerializerSealedClass
     }
 }
