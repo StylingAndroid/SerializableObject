@@ -1,4 +1,4 @@
-const val kotlinVersion = "1.3.50"
+const val kotlinVersion = "1.3.61"
 
 object BuildPlugins {
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -13,7 +13,7 @@ object BuildPlugins {
 object Libraries {
     private object Versions {
         const val jupiter = "5.6.0-M1"
-        const val kotlinxSerializationRuntime = "0.13.0"
+        const val kotlinxSerializationRuntime = "0.14.0"
     }
 
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"

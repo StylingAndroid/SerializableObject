@@ -210,8 +210,8 @@ internal class KSerializerSealedClassTest {
         }
 
     private fun serialize(input: KSerializerSealedClass): KSerializerSealedClass {
-        val serializer = Json(JsonConfiguration.Stable, KSerializerSealedClass.serializersModule)
-        val json = serializer.stringify(KSerializerSealedClass.serializer, input)
-        return serializer.parse(KSerializerSealedClass.serializer, json) as KSerializerSealedClass
+        val serializer = Json(JsonConfiguration.Stable)
+        val json = serializer.stringify(KSerializerSealedClass.serializer(), input)
+        return serializer.parse(KSerializerSealedClass.serializer(), json)
     }
 }
